@@ -3,7 +3,7 @@
         <header class="flex justify-between">
             <div>
                 <h1 class="font-bold text-lg">My app</h1>
-                <p>Welcome back, {{ $page.props.auth.user.username }}</p>
+                <p>Welcome back, {{ username }}</p>
             </div>
             <Nav />
         </header>
@@ -20,6 +20,11 @@
 import Nav from "./Nav.vue";
 export default {
     components: { Nav },
+    computed: {
+        username() {
+            return this.$page.props.auth.user.username;
+        },
+    },
 };
 </script>
 
