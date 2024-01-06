@@ -1,4 +1,6 @@
 <template>
+    <Head title="Users" />
+
     <h1 class="text-4xl font-bold">Users</h1>
 
     <div style="margin-top: 500px">
@@ -9,9 +11,4 @@
     </div>
 </template>
 
-<script>
-import Layout from "../Shared/Layout.vue";
-export default {
-    layout: Layout,
-};
-</script>
+<script></script>

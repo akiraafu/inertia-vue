@@ -24,7 +24,7 @@
                     method="post"
                     :data="{ foo: 'logged out!' }"
                     as="button"
-                    class="text-blue-500 hover:underline"
+                    class="text-black hover:underline"
                     >Log Out</Link
                 >
             </li>

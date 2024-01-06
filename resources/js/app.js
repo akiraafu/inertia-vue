@@ -2,7 +2,7 @@ import "./bootstrap";
 import "../css/app.css";
 
 import { createApp, h } from "vue";
-import { Link, createInertiaApp } from "@inertiajs/vue3";
+import { Head, Link, createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 import NProgress from "nprogress";
@@ -12,7 +12,9 @@ import Layout from "./Shared/Layout.vue";
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    // title: (title) => `My app - ${title}`,
+    title: (title) => "My app - " + title,
+
     resolve: (name) => {
         // resolvePageComponent(
         //     `./Pages/${name}.vue`,
@@ -28,6 +30,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .component("Link", Link)
+            .component("Head", Head)
             .use(ZiggyVue)
             .mount(el);
     },
