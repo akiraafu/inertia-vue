@@ -19,8 +19,8 @@
             />
             <div
                 class="text-red-500 mt-1"
-                v-if="errors.name"
-                v-text="errors.name"
+                v-if="form.errors.name"
+                v-text="form.errors.name"
             ></div>
         </div>
         <div class="mb-5">
@@ -39,8 +39,8 @@
             />
             <div
                 class="text-red-500 mt-1"
-                v-if="errors.email"
-                v-text="errors.email"
+                v-if="form.errors.email"
+                v-text="form.errors.email"
             ></div>
         </div>
         <div class="mb-5">
@@ -58,8 +58,8 @@
             />
             <div
                 class="text-red-500 mt-1"
-                v-if="errors.password"
-                v-text="errors.password"
+                v-if="form.errors.password"
+                v-text="form.errors.password"
             ></div>
         </div>
         <!-- <button
@@ -71,7 +71,7 @@
         </button> -->
         <div>
             <button
-                v-if="!processing"
+                v-if="!form.processing"
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
@@ -90,30 +90,17 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
-import { router } from "@inertiajs/vue3";
+import { useForm } from "@inertiajs/vue3";
 
-defineProps({
-    errors: Object,
-});
-
-let form = reactive({
+let form = useForm({
     name: "",
     email: "",
     password: "",
 });
 
-let processing = ref(false);
-
 let submit = () => {
-    router.post("/users", form, {
-        onStart: () => {
-            processing.value = true;
-        },
-        onFinish: () => {
-            processing.value = false;
-        },
-    });
+    form.post("/users");
+    // form.reset();
 };
 </script>
 
