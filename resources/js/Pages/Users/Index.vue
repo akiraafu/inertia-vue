@@ -2,7 +2,14 @@
     <Head title="Users" />
 
     <div class="flex justify-between mb-6">
-        <h1 class="text-4xl font-bold">Users</h1>
+        <div class="flex items-baseline">
+            <h1 class="text-4xl font-bold">Users</h1>
+            <Link
+                href="/users/create"
+                class="text-sm ml-2 text-blue-600 dark:text-blue-500 hover:underline"
+                >New User</Link
+            >
+        </div>
 
         <input
             v-model="search"
