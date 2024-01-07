@@ -19,8 +19,8 @@
             />
             <div
                 class="text-red-500 mt-1"
-                v-if="$page.props.errors.name"
-                v-text="$page.props.errors.name"
+                v-if="errors.name"
+                v-text="errors.name"
             ></div>
         </div>
         <div class="mb-5">
@@ -39,8 +39,8 @@
             />
             <div
                 class="text-red-500 mt-1"
-                v-if="$page.props.errors.email"
-                v-text="$page.props.errors.email"
+                v-if="errors.email"
+                v-text="errors.email"
             ></div>
         </div>
         <div class="mb-5">
@@ -58,8 +58,8 @@
             />
             <div
                 class="text-red-500 mt-1"
-                v-if="$page.props.errors.password"
-                v-text="$page.props.errors.password"
+                v-if="errors.password"
+                v-text="errors.password"
             ></div>
         </div>
         <button
@@ -74,6 +74,10 @@
 <script setup>
 import { reactive } from "vue";
 import { router } from "@inertiajs/vue3";
+
+defineProps({
+    errors: Object,
+});
 
 let form = reactive({
     name: "",
