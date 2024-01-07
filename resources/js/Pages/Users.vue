@@ -1,14 +1,16 @@
 <template>
     <Head title="Users" />
 
-    <h1 class="text-4xl font-bold">Users</h1>
+    <div class="flex justify-between mb-6">
+        <h1 class="text-4xl font-bold">Users</h1>
 
-    <!-- <div style="margin-top: 500px">
-        <p>The current time is {{ time }}.</p>
-        <Link href="/users" class="text-blue-500" preserve-scroll>
-            Refresh
-        </Link>
-    </div> -->
+        <input
+            v-model="search"
+            type="text"
+            placeholder="Search"
+            class="rounded-lg border-gray-200"
+        />
+    </div>
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table
@@ -45,8 +47,23 @@
 </template>
 
 <script setup>
+import { ref, watch } from "vue";
 import Pagination from "../Shared/Pagination.vue";
-defineProps({
+import { router } from "@inertiajs/vue3";
+let props = defineProps({
     users: Object,
+    filters: Object,
+});
+
+let search = ref(props.filters.search);
+
+watch(search, (value) => {
+    router.get(
+        "/users",
+        {
+            search: value,
+        },
+        { preserveState: true, replace: true }
+    );
 });
 </script>

@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Request;
+// use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,43 +19,38 @@ use Inertia\Inertia;
 |
 */
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
-
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-
-// require __DIR__.'/auth.php';
 
 Route::get('/', function(){
     return Inertia::render('Home');
 });
 
 Route::get('/users', function(){
+    
     return Inertia::render('Users',[
-        // 'time'=> now()->toTimeString()
-        // 'users' => User::all()->map(fn($user)=>[
-        //     'id'=>$user->id,
-        //     'name' =>$user -> name
-        // ])
-        'users' => User::paginate(10)->through(fn($user)=>[
+        'users' => User::query()
+        ->when(Request::input('search'), function($query, $search){
+            $query->where('name', 'like', '%'.$search.'%');
+        })
+        ->paginate(10)
+        ->withQueryString()
+        ->through(fn($user)=>[
             'id'=>$user->id,
             'name'=>$user->name
-        ])
+        ]),
+        
+        'filters'=> Request::only(['search'])
+
+        // 'users' => User::query()
+        // ->when(request()->input('search'), function($query, $search){
+        //     $query->where('name', 'like', '%'.$search.'%');
+        // })
+        // ->paginate(10)
+        // ->withQueryString()
+        // ->through(fn($user)=>[
+        //     'id'=>$user->id,
+        //     'name'=>$user->name
+        // ]),
+        // 'filter'=> request()->only(['search'])
     ]);
 
 
