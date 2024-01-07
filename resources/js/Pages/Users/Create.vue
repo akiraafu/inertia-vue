@@ -62,17 +62,35 @@
                 v-text="errors.password"
             ></div>
         </div>
-        <button
+        <!-- <button
             type="submit"
+            :disabled="processing"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
             Submit
-        </button>
+        </button> -->
+        <div>
+            <button
+                v-if="!processing"
+                type="submit"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+                Submit
+            </button>
+            <button
+                v-else
+                type="button"
+                disabled
+                class="text-white bg-gray-400 cursor-not-allowed focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+                Processing
+            </button>
+        </div>
     </form>
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { router } from "@inertiajs/vue3";
 
 defineProps({
@@ -85,8 +103,17 @@ let form = reactive({
     password: "",
 });
 
+let processing = ref(false);
+
 let submit = () => {
-    router.post("/users", form);
+    router.post("/users", form, {
+        onStart: () => {
+            processing.value = true;
+        },
+        onFinish: () => {
+            processing.value = false;
+        },
+    });
 };
 </script>
 
